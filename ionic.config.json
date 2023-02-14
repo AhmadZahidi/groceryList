@@ -1,0 +1,7 @@
+{
+  "name": "groceryList",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
