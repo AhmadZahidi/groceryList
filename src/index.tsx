@@ -3,12 +3,15 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { IonReactRouter } from '@ionic/react-router';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <App />
+      <IonReactRouter>
+        <App />
+      </IonReactRouter>
   </React.StrictMode>
 );
 
