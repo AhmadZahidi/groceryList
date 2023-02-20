@@ -9,6 +9,7 @@ import {
     signInWithEmailAndPassword, signOut,
     onAuthStateChanged
   } from 'firebase/auth'
+import { useHistory } from "react-router";
 
   
 
@@ -16,6 +17,8 @@ const Register=()=>{
 
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
+
+    const history=useHistory();
 
     const sendRegister=()=>{
         createUserWithEmailAndPassword(auth,email,password)
@@ -25,6 +28,7 @@ const Register=()=>{
         .catch(e=>{
             console.log(e.message)
         })
+        history.replace('/home')
       }
 
     return(

@@ -9,6 +9,8 @@ import Test from "../../pages/Test";
 import Welcome from "../../pages/Welcome";
 import Register from "../../pages/Register";
 import Login from "../../pages/Login";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 
 
@@ -50,10 +52,17 @@ const Menu=()=>{
                         </IonMenuToggle>
 
                         <IonMenuToggle onClick={()=>{
-                            history.replace("/test")
+                            signOut(auth)
+                            .then(()=>{
+                                history.replace("/welcome")
+                                console.log('logout')
+                            })
+                            .catch(e=>{
+                                console.log(e.message)
+                            })
                         }}>
                             <IonItem button>
-                                <IonLabel>Test</IonLabel>
+                                <IonLabel>Logout</IonLabel>
                             </IonItem>
                         </IonMenuToggle>
                     </IonList>

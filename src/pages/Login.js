@@ -8,10 +8,12 @@ import {
     onAuthStateChanged
   } from 'firebase/auth'
 import { auth } from "../firebaseConfig";
+import { useHistory } from "react-router";
 
 const Login=()=>{
     const [password,setPassword]=useState("");
     const [email,setEmail]=useState("");
+    const history=useHistory();
 
     const sendLogin=()=>{
         signInWithEmailAndPassword(auth,email,password)
@@ -21,6 +23,7 @@ const Login=()=>{
         .catch(e=>{
             console.log(e.message)
         })
+        history.replace('/home')
     }
 
     return(
