@@ -6,6 +6,9 @@ import History from "../../pages/History";
 import HistoryDetail from "../../pages/HistoryDetail";
 import Tag from "../../pages/Tag";
 import Test from "../../pages/Test";
+import Welcome from "../../pages/Welcome";
+import Register from "../../pages/Register";
+import Login from "../../pages/Login";
 
 
 
@@ -59,7 +62,7 @@ const Menu=()=>{
 
             <IonRouterOutlet id="Main">
                 <Route path="/" exact>
-                    <Redirect to="/home"/>
+                    <Redirect to="/welcome"/>
                 </Route>
                 <Route path="/home">
                     <Home/>
@@ -75,6 +78,18 @@ const Menu=()=>{
                 </Route>
                 <Route path="/test">
                     <Test/>
+                </Route>
+
+                <Route path="/welcome">
+                    <Welcome/>
+                </Route>
+
+                <Route path="/register">
+                    <Register/>
+                </Route>
+
+                <Route path="/login">
+                    <Login/>
                 </Route>
             </IonRouterOutlet>
         </>
