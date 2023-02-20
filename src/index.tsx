@@ -4,13 +4,14 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { IonReactRouter } from '@ionic/react-router';
+import { ContextProvider } from './store/context';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
       <IonReactRouter>
-        <App />
+        <ContextProvider><App /></ContextProvider>
       </IonReactRouter>
   </React.StrictMode>
 );

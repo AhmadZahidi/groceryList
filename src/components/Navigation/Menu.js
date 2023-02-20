@@ -3,6 +3,7 @@ import { Redirect, Route, useHistory } from "react-router";
 
 import Home from "../../pages/Home";
 import History from "../../pages/History";
+import HistoryDetail from "../../pages/HistoryDetail";
 import Tag from "../../pages/Tag";
 import Test from "../../pages/Test";
 
@@ -63,8 +64,11 @@ const Menu=()=>{
                 <Route path="/home">
                     <Home/>
                 </Route>
-                <Route path="/history">
+                <Route exact path="/history">
                     <History/>
+                </Route>
+                <Route path="/history/:id">
+                    <HistoryDetail/>
                 </Route>
                 <Route path="/tag">
                     <Tag/>
