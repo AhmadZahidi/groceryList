@@ -25,6 +25,7 @@ const History=()=>{
             setData(array);
         })
     },[])
+
     return(
         <>
             <IonPage>
@@ -46,8 +47,9 @@ const History=()=>{
                           })
                         ?.map((item,key)=>{
                             return(
-                                <IonMenuToggle key={key} onClick={()=>{
-                                    history.replace(`/history/${item}`)
+                                <IonMenuToggle key={key} 
+                                    onClick={()=>{
+                                        history.push(`/history/${item}`)
                                 }}>
                                     <IonItem key={key} button>
                                         <IonTitle>{item}</IonTitle>
