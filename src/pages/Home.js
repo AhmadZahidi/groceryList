@@ -11,9 +11,6 @@ const Home = () => {
   const modal = useRef(null);
   const input = useRef(null);
 
-
-  const [data,setData]=useState();
-
   const [items, setItems] = useState([]);
   const [isChecked, setIsChecked] = useState([]);
   
@@ -28,7 +25,7 @@ const Home = () => {
 
   useEffect(()=>{
 
-    const ref = collection(firestore,'items');
+    const ref = collection(firestore,'listItems');
 
     onSnapshot(ref,(snapshot)=>{
       
@@ -39,7 +36,7 @@ const Home = () => {
       })
 
       array.map(id => {
-        if (id.uid === localStorage.getItem('uid')) {
+        if (id.uid === ctx.uid) {
           filteredArray.push(id);
         }
       })
@@ -65,7 +62,7 @@ const Home = () => {
 
       // sendData();
 
-      const items_ref = collection(firestore,"items")
+      const items_ref = collection(firestore,"listItems")
 
       try {
         
