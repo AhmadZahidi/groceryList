@@ -22,8 +22,12 @@ const Register=()=>{
 
     const sendRegister=()=>{
         createUserWithEmailAndPassword(auth,email,password)
-        .then(cred=>{
-            console.log('cred',cred.user)
+        .then(res=>{
+            console.log('res',res.user);
+
+            sessionStorage.setItem("auth_token", res._tokenResponse.refreshToken);
+            sessionStorage.setItem("user_uid", res.user.uid);
+
             history.replace('/home')
         })
         .catch(e=>{

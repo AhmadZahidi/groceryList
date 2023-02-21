@@ -22,10 +22,15 @@ const Login=()=>{
   const sendLogin=()=>{
 
     signInWithEmailAndPassword(auth,email,password)
-    .then(cred=>{
-        console.log('user login:',cred.user)
-        // localStorage.setItem('uid',cred.user.uid)
-        ctx.getUid(cred.user.uid);
+    .then(res=>{
+
+        console.log('res', res);
+        console.log('user login:',res.user)
+        // localStorage.setItem('uid',res.user.uid)
+        ctx.getUid(res.user.uid);
+
+        sessionStorage.setItem("auth_token", res._tokenResponse.refreshToken);
+        sessionStorage.setItem("user_uid", res.user.uid);
 
         history.replace('/home')
     })

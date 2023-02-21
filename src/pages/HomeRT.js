@@ -1,16 +1,24 @@
-import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, 
+  IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react"
+
 import { addCircleOutline } from 'ionicons/icons'
 import { useRef, useState, useEffect, useContext } from "react";
 
-import "firebase/firestore";
-import { firestore } from "../firebaseConfig";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+
+import { onValue, ref, set, push } from "firebase/database";
+
 import Context from "../store/context";
+
+// https://firebase.google.com/docs/database/web/read-and-write
+
 
 const HomeRT = () => {
 
   const modal = useRef(null);
   const input = useRef(null);
+
+  const [user_uid, setUser_uid] = useState("");
 
   const [items, setItems] = useState([]);
   const [isChecked, setIsChecked] = useState([]);
@@ -22,96 +30,107 @@ const HomeRT = () => {
 
   const dateString = `${year}-${month}-${day}`;
 
-  const ctx=useContext(Context);
+  const ctx = useContext(Context);
 
-  useEffect(()=>{
+  useEffect( () => {
 
-    const ref = collection(firestore,'listItems');
+    let _user_uid = sessionStorage.getItem("user_uid");
+    console.log('user id', _user_uid);
 
-    onSnapshot(ref,(snapshot)=>{
-      
-      let array=[]
-      let filteredArray=[]
-      snapshot.docs.forEach(doc=>{
-          array.push({...doc.data(),id:doc.id})
-      })
+    setUser_uid(_user_uid)
 
-      array.map(id => {
-        if (id.uid === ctx.uid) {
-          filteredArray.push(id);
-        }
-      })
-      setItems(filteredArray);
+    let path = _user_uid + "/items";
 
-      // console.log('hi', array);
+    const userItemsRef = ref(db,path);
 
-    })
+    console.log('path', path);
+
+    onValue(userItemsRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (snapshot.exists()) {
+        const array = [];
+
+        Object.keys(data).forEach((key) => {
+          array.push({
+            ...data[key],
+            uid: key
+          });
+        });
+
+        setItems(array);
+
+        console.log('array',array);
+
+      }
+      // setItems(data);
+
+    });
+
+    // return onValue(query, (snapshot) => {
+    //   const data = snapshot.val();
+
+    //   if (snapshot.exists()) {
+    //     Object.values(data).map((project) => {
+    //       setItems((projects) => [...projects, project]);
+    //     });
+    //   }
+    // });
     
 
   },[])
 
 
-  function confirm() {
-    modal.current?.dismiss(input.current?.value, 'confirm');
+  function confirm () {
+
+    let name = input.current?.value;
+
+    let path = user_uid + "/items";
+
+
+    var itemsRef = ref(db, user_uid + "/items");
+
+
+    console.log('name', name, path)
+
+    // set(ref(db, path), {
+    //   title: name,
+    // })
+
+    push(itemsRef, {
+      title: name,
+      is_done: false,
+    }).then(res=>{
+      console.log('r',res);
+    }).catch(e=>{
+      console.log('r',e);
+    })
+    
+
+    // var itemsRef = firebase.database().ref(user_uid + "/items");
+
+    // itemsRef.push({
+    //   title: name,
+    //   is_done: false,
+    // });
+
+    modal.current?.dismiss();
+
   }
 
-  function onWillDismiss(e) {
-    if (e.detail.role === 'confirm') {
-      
-      setItems([...items, e.detail.data]);
-      setIsChecked([...isChecked, false]); // set the default value of the new checkbox to false
+  function onWillDismiss() {
 
-      // sendData();
-
-      const items_ref = collection(firestore,"listItems")
-
-      try {
-        
-        addDoc(items_ref,{
-          name:e.detail.data,
-          isBuy:false,
-          date:dateString,
-          uid:ctx.uid,
-        });
-
-      } catch (e) {
-
-        console.log(e);
-
-      }
-
-    }
   }
 
-  // const sendData= async (e)=>{
-
-  //   e.preventDefault();
-
-  //   const ref=collection(firestore,"items")
-
-  //   try{
-  //       for (let i = 0; i < items.length; i++) {
-  //           addDoc(ref,{
-  //               name:items[i],
-  //               isBuy:isChecked[i],
-  //               date:dateString,
-                
-  //           }
-  //         )
-  //       }
-  //   }
-  //   catch(e){
-  //       console.log(e);
-  //   }
-  // }
 
   return (
     <>
+
       <IonPage>
         <IonHeader>
           <IonToolbar color="primary">
             <IonButtons slot="start">
-              <IonMenuButton />
+              {/* <IonMenuButton /> */}
             </IonButtons>
             <IonButtons slot="end">
               {/* <IonButton id="open-modal">
@@ -123,6 +142,8 @@ const HomeRT = () => {
     
 
         <IonContent>
+
+        {renderModal()}
 
         {
           items.length <= 0 &&
@@ -150,7 +171,7 @@ const HomeRT = () => {
                     checked={isChecked[idx]} // add checked property to set the default value to false
                   />
                   {console.log(isChecked)}
-                  <IonLabel>{item.name}</IonLabel>
+                  <IonLabel>{item.title}</IonLabel>
                 </IonItem>
               )
             })}
@@ -162,38 +183,7 @@ const HomeRT = () => {
             </IonRow>
           </IonGrid> */}
 
-          <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
-            <IonHeader>
-              <IonToolbar>                
-                <IonTitle>Add Item</IonTitle>
 
-              </IonToolbar>
-            </IonHeader>
-            <IonContent className="ion-padding">
-              <IonItem>
-                <IonLabel position="stacked">Enter your Grocery</IonLabel>
-                <IonInput ref={input} type="text" placeholder="Your name" />
-              </IonItem>
-           
-            </IonContent>
-            <IonFooter>                           
-
-              <div style={{padding:6, display:'flex', justifyContent:'flex-end', flex:1}}> 
-              <IonButton 
-                fill="outline"
-                onClick={() => modal.current?.dismiss()}>Cancel
-              </IonButton>
-              <IonButton 
-                strong={true} 
-                onClick={() => confirm()}
-                style={{color:'white'}}
-              >
-                Confirm
-              </IonButton>
-              </div>
-        
-            </IonFooter>
-          </IonModal>
         </IonContent>
 
         <IonFab slot="fixed" horizontal="end" vertical="bottom">
@@ -206,6 +196,43 @@ const HomeRT = () => {
       </IonPage>
     </>
   )
+
+  function renderModal(){
+    return (
+      <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+      <IonHeader>
+        <IonToolbar>                
+          <IonTitle>Add Item</IonTitle>
+
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="ion-padding">
+        <IonItem>
+          <IonLabel position="stacked">Name</IonLabel>
+          <IonInput ref={input} type="text" placeholder="" />
+        </IonItem>
+     
+      </IonContent>
+      <IonFooter>                           
+
+        <div style={{padding:6, display:'flex', justifyContent:'flex-end', flex:1}}> 
+        <IonButton 
+          fill="outline"
+          onClick={() => modal.current?.dismiss()}>Cancel
+        </IonButton>
+        <IonButton 
+          strong={true} 
+          onClick={() => confirm()}
+          style={{color:'white'}}
+        >
+          Confirm
+        </IonButton>
+        </div>
+  
+      </IonFooter>
+    </IonModal>
+    )
+  }
 }
 
 export default HomeRT;

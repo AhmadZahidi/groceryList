@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-
+import { getDatabase } from "firebase/database";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,12 +19,19 @@ const firebaseConfig = {
   projectId: "grocerylist-cec21",
   storageBucket: "grocerylist-cec21.appspot.com",
   messagingSenderId: "654686257789",
-  appId: "1:654686257789:web:982cc4514813dddee9a714"
+  appId: "1:654686257789:web:982cc4514813dddee9a714",
+  authDomain: "grocerylist-cec21.firebaseapp.com",
+  databaseURL: "https://grocerylist-cec21-default-rtdb.asia-southeast1.firebasedatabase.app",
+  
 };
 
 // Initialize Firebase
 const app=initializeApp(firebaseConfig);
-export const auth=getAuth();
 
-export const firestore=getFirestore(app);
+export const auth = getAuth();
+
+export const firestore = getFirestore(app);
+
+export const db = getDatabase(app);
+
 // export { app };
