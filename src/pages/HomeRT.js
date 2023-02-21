@@ -20,6 +20,8 @@ const HomeRT = () => {
 
   const [user_uid, setUser_uid] = useState("");
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [items, setItems] = useState([]);
   const [isChecked, setIsChecked] = useState([]);
   
@@ -59,9 +61,12 @@ const HomeRT = () => {
         });
 
         setItems(array);
+        setIsLoading(false);
 
         console.log('array',array);
 
+      } else {
+        setIsLoading(false);
       }
       // setItems(data);
 
@@ -130,7 +135,7 @@ const HomeRT = () => {
         <IonHeader>
           <IonToolbar color="primary">
             <IonButtons slot="start">
-              {/* <IonMenuButton /> */}
+              <IonMenuButton />
             </IonButtons>
             <IonButtons slot="end">
               {/* <IonButton id="open-modal">
@@ -146,11 +151,21 @@ const HomeRT = () => {
         {renderModal()}
 
         {
-          items.length <= 0 &&
+          (items.length <= 0 && isLoading == false )&&
           <center>
             <div style={{height:24}}></div>
             <IonText>
               No Items Added Yet
+            </IonText>
+          </center>
+        }
+
+        {
+          (isLoading == true )&&
+          <center>
+            <div style={{height:24}}></div>
+            <IonText>
+              Loading items...
             </IonText>
           </center>
         }
@@ -163,10 +178,14 @@ const HomeRT = () => {
                   <IonCheckbox
                     slot="start"
                     onIonChange={(e) => {
+
+                      console.log('item', item);
+
                       const isCheckedAtIndex = e.target.checked ? true : false;
                       const newChecked = [...isChecked];
                       newChecked[idx] = isCheckedAtIndex;
                       setIsChecked(newChecked);
+
                     }}
                     checked={isChecked[idx]} // add checked property to set the default value to false
                   />
