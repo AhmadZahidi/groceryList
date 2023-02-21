@@ -19,11 +19,13 @@ const Login=()=>{
         signInWithEmailAndPassword(auth,email,password)
         .then(cred=>{
             console.log('user login:',cred.user)
+            localStorage.setItem('uid',cred.user.uid)
+            history.replace('/home')
         })
         .catch(e=>{
             console.log(e.message)
         })
-        history.replace('/home')
+        
     }
 
     return(

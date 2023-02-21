@@ -30,15 +30,19 @@ const Home = () => {
     onSnapshot(ref,(snapshot)=>{
       
       let array=[]
+      let filteredArray=[]
       snapshot.docs.forEach(doc=>{
           array.push({...doc.data(),id:doc.id})
       })
 
-      // setData(array);
+      array.map(id => {
+        if (id.uid === localStorage.getItem('uid')) {
+          filteredArray.push(id);
+        }
+      })
+      setItems(filteredArray);
 
-      setItems(array);
-
-      console.log('hi', array);
+      // console.log('hi', array);
 
     })
     
@@ -66,6 +70,7 @@ const Home = () => {
           name:e.detail.data,
           isBuy:false,
           date:dateString,
+          uid:localStorage.getItem('uid'),
         });
 
       } catch (e) {
@@ -77,26 +82,27 @@ const Home = () => {
     }
   }
 
-  const sendData= async (e)=>{
+  // const sendData= async (e)=>{
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    const ref=collection(firestore,"items")
+  //   const ref=collection(firestore,"items")
 
-    try{
-        for (let i = 0; i < items.length; i++) {
-            addDoc(ref,{
-                name:items[i],
-                isBuy:isChecked[i],
-                date:dateString,
-            }
-          )
-        }
-    }
-    catch(e){
-        console.log(e);
-    }
-  }
+  //   try{
+  //       for (let i = 0; i < items.length; i++) {
+  //           addDoc(ref,{
+  //               name:items[i],
+  //               isBuy:isChecked[i],
+  //               date:dateString,
+                
+  //           }
+  //         )
+  //       }
+  //   }
+  //   catch(e){
+  //       console.log(e);
+  //   }
+  // }
 
   return (
     <>

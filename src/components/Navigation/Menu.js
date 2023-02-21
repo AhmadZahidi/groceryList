@@ -54,6 +54,7 @@ const Menu=()=>{
                         <IonMenuToggle onClick={()=>{
                             signOut(auth)
                             .then(()=>{
+                                localStorage.removeItem('uid')
                                 history.replace("/welcome")
                                 console.log('logout')
                             })
