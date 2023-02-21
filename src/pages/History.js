@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonText, IonTitle, IonToolbar } from "@ionic/react"
 import { addCircleOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,19 +15,27 @@ const History=()=>{
     const history=useHistory();
 
     useEffect(()=>{
-        const ref=collection(firestore,'history')
+        const ref=collection(firestore,'items')
 
         onSnapshot(ref,(snapshot)=>{
             let array=[]
+            let filteredArray=[]
+
             snapshot.docs.forEach(doc=>{
                 array.push({...doc.data(),id:doc.id})
             })
-            setData(array);
+            array.map(id => {
+                if (id.uid === localStorage.getItem('uid')) {
+                  filteredArray.push(id);
+                }
+              })
+              setData(filteredArray);
         })
     },[])
 
     return(
         <>
+        {console.log(data)}
             <IonPage>
                 <IonHeader>
                     <IonToolbar color="primary">
@@ -39,24 +47,29 @@ const History=()=>{
 
                 <IonContent>
                     <IonList lines="full">
-                        {[...new Set(data?.map(item => item.date))]
+                        {/* {[...new Set(data?.map(item => item.date))]
                         .sort((a, b) => {
-                            const dateA = new Date(a.split('/').reverse().join('/'));
-                            const dateB = new Date(b.split('/').reverse().join('/'));
+                            const dateA = new Date(a.split('-').reverse().join('-'));
+                            const dateB = new Date(b.split('-').reverse().join('-'));
                             return dateA - dateB;
-                          })
-                        ?.map((item,key)=>{
-                            return(
-                                <IonMenuToggle key={key} 
-                                    onClick={()=>{
-                                        history.push(`/history/${item}`)
-                                }}>
-                                    <IonItem key={key} button>
-                                        <IonTitle>{item}</IonTitle>
-                                    </IonItem>
-                                </IonMenuToggle>
+                          }) */}
+                        {data && data
+                        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                        .map((item, key) => {
+                            return (
+                            <IonItem
+                                key={key}
+                            >
+                                <IonItem key={key}>
+                                    <IonLabel>
+                                        <IonTitle class="ion-margin-bottom">{item.name}</IonTitle>
+                                        <IonTitle>{item.date}</IonTitle>
+                                    </IonLabel>
+                                </IonItem>
+                            </IonItem>
                             )
                         })}
+
                     </IonList>
                 </IonContent>
             </IonPage>
