@@ -9,20 +9,21 @@ const Welcome=()=>{
             <IonContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol>
-                                <IonButton onClick={()=>{
-                                    history.push('/register')
-                                }}>
-                                    Register
-                                </IonButton>
-                        </IonCol>
-                        <IonCol>
-                                <IonButton onClick={()=>{
-                                    history.push('/login')
-                                }}> 
-                                    Login
-                                </IonButton>
-                        </IonCol>
+
+
+                      <IonButton onClick={()=>{
+                          history.push('/register')
+                      }}>
+                          Register
+                      </IonButton>
+                      <br/>
+
+                      <IonButton onClick={()=>{
+                          history.push('/login')
+                      }}> 
+                          Login
+                      </IonButton>
+
                     </IonRow>
                 </IonGrid>
             </IonContent>

@@ -11,7 +11,9 @@ const root = createRoot(container!);
 root.render(
   <React.StrictMode>
       <IonReactRouter>
-        <ContextProvider><App /></ContextProvider>
+        <ContextProvider>
+          <App />
+        </ContextProvider>
       </IonReactRouter>
   </React.StrictMode>
 );

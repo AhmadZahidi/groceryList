@@ -12,81 +12,84 @@ import { useHistory } from "react-router";
 import Context from "../store/context";
 
 const Login=()=>{
-    const [password,setPassword]=useState("");
-    const [email,setEmail]=useState("");
-    const history=useHistory();
 
-    const ctx=useContext(Context);
+  const [password,setPassword]=useState("");
+  const [email,setEmail]=useState("");
+  const history=useHistory();
 
-    const sendLogin=()=>{
-        signInWithEmailAndPassword(auth,email,password)
-        .then(cred=>{
-            console.log('user login:',cred.user)
-            // localStorage.setItem('uid',cred.user.uid)
-            ctx.getUid(cred.user.uid);
+  const ctx=useContext(Context);
 
-            history.replace('/home')
-        })
-        .catch(e=>{
-            console.log(e.message)
-        })
-        
-    }
+  const sendLogin=()=>{
 
-    return(
-        
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonBackButton/>
-                    </IonButtons>
-                    <IonTitle>
-                        Grocery List
-                    </IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent>
-                
-                <IonGrid>
-                    <IonRow>
-                        <IonCol>
-                            <IonTitle>Login</IonTitle>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol>
-                            <IonList inset={true}>
-                                <IonItem>
-                                    <IonLabel position="floating">Email:</IonLabel>
-                                    <IonInput 
-                                        type="text"
-                                        value={email}
-                                        onIonChange={(e)=>setEmail(e.detail.value)}
-                                        required
-                                    ></IonInput>
-                                </IonItem>
-                                <IonItem>
-                                    <IonLabel position="floating">Password:</IonLabel>
-                                    <IonInput 
-                                        type="password"
-                                        value={password}
-                                        onIonChange={(e)=>setPassword(e.detail.value)}
-                                        required
-                                    ></IonInput>
-                                </IonItem>
-                            </IonList>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol>
-                            <IonButton onClick={sendLogin}>Login</IonButton>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-            </IonContent>
-        </IonPage>
-    )
+    signInWithEmailAndPassword(auth,email,password)
+    .then(cred=>{
+        console.log('user login:',cred.user)
+        // localStorage.setItem('uid',cred.user.uid)
+        ctx.getUid(cred.user.uid);
+
+        history.replace('/home-rt')
+    })
+    .catch(e=>{
+        console.log(e.message)
+    })    
+
+  }
+
+  return(
+      
+    <IonPage>
+        <IonHeader>
+            <IonToolbar>
+                <IonButtons slot="start">
+                    <IonBackButton/>
+                </IonButtons>
+                <IonTitle>
+                    Grocery List
+                </IonTitle>
+            </IonToolbar>
+        </IonHeader>
+        <IonContent>
+            
+            <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonTitle>Login</IonTitle>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                    <IonCol>
+                        <IonList inset={true}>
+                            <IonItem>
+                                <IonLabel position="floating">Email</IonLabel>
+                                <IonInput 
+                                    type="text"
+                                    value={email}
+                                    onIonChange={(e)=>setEmail(e.detail.value)}
+                                    required
+                                ></IonInput>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel position="floating">Password</IonLabel>
+                                <IonInput 
+                                    type="password"
+                                    value={password}
+                                    onIonChange={(e)=>setPassword(e.detail.value)}
+                                    required
+                                ></IonInput>
+                            </IonItem>
+                        </IonList>
+                    </IonCol>
+                </IonRow>
+                <IonRow>
+                    <IonCol>
+                        <IonButton onClick={sendLogin}>Login</IonButton>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+        </IonContent>
+    </IonPage>
+  )
+
 }
 
 export default Login;
