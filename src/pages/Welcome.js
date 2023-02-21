@@ -9,8 +9,6 @@ const Welcome=()=>{
             <IonContent>
                 <IonGrid>
                     <IonRow>
-
-
                       <IonButton onClick={()=>{
                           history.push('/register')
                       }}>

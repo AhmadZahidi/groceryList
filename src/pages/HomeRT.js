@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, IonModal, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react"
 import { addCircleOutline } from 'ionicons/icons'
 import { useRef, useState, useEffect, useContext } from "react";
 
@@ -8,7 +8,7 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import Context from "../store/context";
 
 const HomeRT = () => {
-  
+
   const modal = useRef(null);
   const input = useRef(null);
 
@@ -120,8 +120,21 @@ const HomeRT = () => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
+    
 
         <IonContent>
+
+        {
+          items.length <= 0 &&
+          <center>
+            <div style={{height:24}}></div>
+            <IonText>
+              No Items Added Yet
+            </IonText>
+          </center>
+        }
+
+
           <IonList lines="inset">
             {items.map((item, idx) => {
               return (

@@ -13,6 +13,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useContext } from "react";
 import Context from "../../store/context";
+import HomeRT from "../../pages/HomeRT";
 
 
 
@@ -21,7 +22,7 @@ const Menu=()=>{
     const ctx=useContext(Context);
 
     return(
-            <>
+        <>
             <IonMenu contentId="Main">
                 <IonHeader>
                     <IonToolbar>
@@ -76,16 +77,23 @@ const Menu=()=>{
 
             <IonRouterOutlet id="Main">
                 <Route path="/" exact>
-                    <Redirect to="/welcome"/>
+                  <Redirect to="/welcome"/>
                 </Route>
+
                 <Route path="/home">
-                    <Home/>
+                  <HomeRT/>
                 </Route>
+
+                <Route path="/list">
+                  <HomeRT/>
+                </Route>
+                
+
                 <Route exact path="/history">
-                    <History/>
+                  <History/>
                 </Route>
                 <Route path="/history/:id">
-                    <HistoryDetail/>
+                  <HistoryDetail/>
                 </Route>
                 <Route path="/tag">
                     <Tag/>

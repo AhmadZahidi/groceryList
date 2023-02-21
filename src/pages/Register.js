@@ -56,7 +56,7 @@ const Register=()=>{
                         <IonCol>
                             <IonList inset={true}>
                                 <IonItem>
-                                    <IonLabel position="floating">Email:</IonLabel>
+                                    <IonLabel position="floating">Email</IonLabel>
                                     <IonInput 
                                         type="text"
                                         value={email}
@@ -65,7 +65,7 @@ const Register=()=>{
                                     ></IonInput>
                                 </IonItem>
                                 <IonItem>
-                                    <IonLabel position="floating">Password:</IonLabel>
+                                    <IonLabel position="floating">Password</IonLabel>
                                     <IonInput
                                         type="password"
                                         value={password}

@@ -10,11 +10,11 @@ const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-      <IonReactRouter>
-        <ContextProvider>
-          <App />
-        </ContextProvider>
-      </IonReactRouter>
+    <IonReactRouter>
+      <ContextProvider>
+        <App/>
+      </ContextProvider>
+    </IonReactRouter>
   </React.StrictMode>
 );
 

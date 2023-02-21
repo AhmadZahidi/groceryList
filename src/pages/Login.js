@@ -27,7 +27,7 @@ const Login=()=>{
         // localStorage.setItem('uid',cred.user.uid)
         ctx.getUid(cred.user.uid);
 
-        history.replace('/home-rt')
+        history.replace('/home')
     })
     .catch(e=>{
         console.log(e.message)
