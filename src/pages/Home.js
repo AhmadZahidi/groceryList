@@ -1,10 +1,11 @@
 import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, IonModal, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react"
 import { addCircleOutline } from 'ionicons/icons'
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 
 import "firebase/firestore";
 import { firestore } from "../firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import Context from "../store/context";
 
 const Home = () => {
   const modal = useRef(null);
@@ -22,6 +23,8 @@ const Home = () => {
   const year = today.getFullYear();
 
   const dateString = `${year}-${month}-${day}`;
+
+  const ctx=useContext(Context);
 
   useEffect(()=>{
 
@@ -70,7 +73,7 @@ const Home = () => {
           name:e.detail.data,
           isBuy:false,
           date:dateString,
-          uid:localStorage.getItem('uid'),
+          uid:ctx.uid,
         });
 
       } catch (e) {

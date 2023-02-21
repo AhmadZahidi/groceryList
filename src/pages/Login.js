@@ -1,5 +1,5 @@
 import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import {
     getAuth,
@@ -9,17 +9,22 @@ import {
   } from 'firebase/auth'
 import { auth } from "../firebaseConfig";
 import { useHistory } from "react-router";
+import Context from "../store/context";
 
 const Login=()=>{
     const [password,setPassword]=useState("");
     const [email,setEmail]=useState("");
     const history=useHistory();
 
+    const ctx=useContext(Context);
+
     const sendLogin=()=>{
         signInWithEmailAndPassword(auth,email,password)
         .then(cred=>{
             console.log('user login:',cred.user)
-            localStorage.setItem('uid',cred.user.uid)
+            // localStorage.setItem('uid',cred.user.uid)
+            ctx.getUid(cred.user.uid);
+
             history.replace('/home')
         })
         .catch(e=>{
@@ -29,6 +34,7 @@ const Login=()=>{
     }
 
     return(
+        
         <IonPage>
             <IonHeader>
                 <IonToolbar>

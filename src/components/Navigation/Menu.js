@@ -11,11 +11,14 @@ import Register from "../../pages/Register";
 import Login from "../../pages/Login";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
+import { useContext } from "react";
+import Context from "../../store/context";
 
 
 
 const Menu=()=>{
     const history = useHistory();
+    const ctx=useContext(Context);
 
     return(
             <>
@@ -54,7 +57,8 @@ const Menu=()=>{
                         <IonMenuToggle onClick={()=>{
                             signOut(auth)
                             .then(()=>{
-                                localStorage.removeItem('uid')
+                                // localStorage.removeItem('uid')
+                                ctx.removeUid();
                                 history.replace("/welcome")
                                 console.log('logout')
                             })

@@ -6,7 +6,9 @@ import { collection, onSnapshot } from "firebase/firestore";
 const Context = React.createContext({
   groceryList: [],
   index: [],
-  uid:null,
+  getUid:(uid)=>{},
+  removeUid:()=>{},
+  uid:"",
 });
 
 export const ContextProvider = (props) => {
@@ -35,12 +37,23 @@ export const ContextProvider = (props) => {
     });
   }, []);
 
+  const uidHandler=(uid)=>{
+    setUid(uid);
+  }
+
+  const removeUidHandler=()=>{
+    setUid("");
+    console.log("uid is removed from context")
+  }
+
   return (
     <Context.Provider
       value={{
         groceryList: groceryList,
         index: index,
-        uid:uid,
+        getUid:uidHandler,
+        removeUid:removeUidHandler,
+        uid:uid
       }}
     >
       {props.children}
