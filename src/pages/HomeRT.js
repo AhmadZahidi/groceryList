@@ -74,7 +74,6 @@ const HomeRT = () => {
 
     // return onValue(query, (snapshot) => {
     //   const data = snapshot.val();
-
     //   if (snapshot.exists()) {
     //     Object.values(data).map((project) => {
     //       setItems((projects) => [...projects, project]);
@@ -92,9 +91,7 @@ const HomeRT = () => {
 
     let path = user_uid + "/items";
 
-
     var itemsRef = ref(db, user_uid + "/items");
-
 
     console.log('name', name, path)
 
@@ -138,9 +135,30 @@ const HomeRT = () => {
               <IonMenuButton />
             </IonButtons>
             <IonButtons slot="end">
-              {/* <IonButton id="open-modal">
-                <IonIcon icon={addCircleOutline} size="large" />
-              </IonButton> */}
+              <IonButton 
+                onClick={()=>{
+                  console.log('hi');
+
+                  items.map(item =>{
+                    if (item.is_done === true){
+
+                      let path = user_uid + "/items/" + item.uid;
+
+                      set(ref(db, path), null)
+                      .then(() => {
+                        // Data saved successfully!
+                      })
+                      .catch((error) => {
+                        // The write failed...
+                      });
+
+                    }
+                  })
+
+                }}  
+              >
+                Clear list
+              </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -179,17 +197,31 @@ const HomeRT = () => {
                     slot="start"
                     onIonChange={(e) => {
 
-                      console.log('item', item);
+                      let checked = e.target.checked;
 
-                      const isCheckedAtIndex = e.target.checked ? true : false;
-                      const newChecked = [...isChecked];
-                      newChecked[idx] = isCheckedAtIndex;
-                      setIsChecked(newChecked);
+                      let path = user_uid + "/items/" + item.uid;
+
+                      // const userItemsRef = ref(db,path);
+
+                      console.log('item', path, item.uid, checked);                     
+
+                      set(ref(db, path), {
+                        title: item.title,
+                        is_done: checked,
+                      })
+                      .then(() => {
+                        // Data saved successfully!
+                      })
+                      .catch((error) => {
+                        // The write failed...
+                      });
 
                     }}
-                    checked={isChecked[idx]} // add checked property to set the default value to false
+                    
+                    checked={item.is_done} 
+                    // add checked property to set the default value to false
                   />
-                  {console.log(isChecked)}
+                  
                   <IonLabel>{item.title}</IonLabel>
                 </IonItem>
               )
