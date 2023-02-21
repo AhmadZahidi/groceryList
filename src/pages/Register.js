@@ -24,11 +24,12 @@ const Register=()=>{
         createUserWithEmailAndPassword(auth,email,password)
         .then(cred=>{
             console.log('cred',cred.user)
+            history.replace('/home')
         })
         .catch(e=>{
             console.log(e.message)
         })
-        history.replace('/home')
+        
       }
 
     return(
