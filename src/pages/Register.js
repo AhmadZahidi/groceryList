@@ -66,7 +66,7 @@ const Register=()=>{
                                 <IonItem>
                                     <IonLabel position="floating">Password:</IonLabel>
                                     <IonInput
-                                        type="text"
+                                        type="password"
                                         value={password}
                                         onIonChange={(e)=>setPassword(e.detail.value)}
                                         required></IonInput>

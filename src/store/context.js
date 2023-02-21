@@ -6,11 +6,13 @@ import { collection, onSnapshot } from "firebase/firestore";
 const Context = React.createContext({
   groceryList: [],
   index: [],
+  uid:null,
 });
 
 export const ContextProvider = (props) => {
   const [groceryList, setGroceryList] = useState([]);
   const [index, setIndex] = useState([]);
+  const [uid,setUid]=useState();
 
   useEffect(() => {
     const ref = collection(firestore, "history");
@@ -38,6 +40,7 @@ export const ContextProvider = (props) => {
       value={{
         groceryList: groceryList,
         index: index,
+        uid:uid,
       }}
     >
       {props.children}
