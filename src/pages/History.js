@@ -10,9 +10,10 @@ import { useHistory } from "react-router";
 
 const History=()=>{
     const [user_uid,setUser_uid]=useState("");
-    const [items,setItems]=useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [data,setData]=useState();
+
+    const [data,setData]=useState([]);
 
     const history=useHistory();
 
@@ -44,7 +45,10 @@ const History=()=>{
                 })
 
                 setData(filteredArray);
+                setIsLoading(false);
                 console.log(filteredArray);
+            }else{
+                setIsLoading(false);
             }
         });
 
@@ -62,6 +66,26 @@ const History=()=>{
                 </IonHeader>
 
                 <IonContent>
+                    
+                {
+                (data.length <= 0 && isLoading == false)&&
+                    <center>
+                        <div style={{height:24}}></div>
+                        <IonText>
+                        No Items Saved Yet
+                        </IonText>
+                    </center>
+                    }
+
+                    {
+                    (isLoading == true )&&
+                    <center>
+                        <div style={{height:24}}></div>
+                        <IonText>
+                        Loading items...
+                        </IonText>
+                    </center>
+                }
                     <IonList lines="full">
 
                         {data && data.map((item,idx)=>{
