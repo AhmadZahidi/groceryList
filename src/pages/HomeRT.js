@@ -53,6 +53,7 @@ const HomeRT = () => {
 
       if (snapshot.exists()) {
         const array = [];
+        const filteredArray=[];
 
         Object.keys(data).forEach((key) => {
           array.push({
@@ -61,7 +62,13 @@ const HomeRT = () => {
           });
         });
 
-        setItems(array);
+        array.map(data=>{
+          if(data.is_saved===false){
+            filteredArray.push(data);
+          }
+        })
+
+        setItems(filteredArray);
         setIsLoading(false);
 
         console.log('array',array);
@@ -103,6 +110,7 @@ const HomeRT = () => {
     push(itemsRef, {
       title: name,
       is_done: false,
+      is_saved:false,
     }).then(res=>{
       console.log('r',res);
     }).catch(e=>{
@@ -170,7 +178,31 @@ const HomeRT = () => {
                       </IonItem>
                     
                     
-                      <IonItem button>
+                      <IonItem button
+                      onClick={()=>{
+                        items.map(item =>{
+                          if (item.is_saved === false){
+      
+                            let path = user_uid + "/items/" + item.uid;
+      
+                            set(ref(db, path), {
+                              title: item.title,
+                              is_done: item.is_done,
+                              is_saved:item.is_done
+                            })
+                            .then(() => {
+                              // Data saved successfully!
+                            })
+                            .catch((error) => {
+                              // The write failed...
+                            });
+      
+                          }
+                        })
+                      }
+                        
+                      }
+                      >
                         <IonLabel>Save</IonLabel>
                       </IonItem>
                     
@@ -187,7 +219,7 @@ const HomeRT = () => {
         {renderModal()}
 
         {
-          (items.length <= 0 && isLoading == false )&&
+          (items.length <= 0 && isLoading == false)&&
           <center>
             <div style={{height:24}}></div>
             <IonText>
@@ -226,6 +258,7 @@ const HomeRT = () => {
                       set(ref(db, path), {
                         title: item.title,
                         is_done: checked,
+                        is_saved:false,
                       })
                       .then(() => {
                         // Data saved successfully!
