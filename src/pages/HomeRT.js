@@ -1,7 +1,8 @@
 import { IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenuButton, 
-  IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react"
+  IonMenuToggle, 
+  IonModal, IonPage, IonPopover, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react"
 
-import { addCircleOutline } from 'ionicons/icons'
+import { addCircleOutline, ellipsisHorizontal } from 'ionicons/icons'
 import { useRef, useState, useEffect, useContext } from "react";
 
 import { db } from "../firebaseConfig";
@@ -135,36 +136,53 @@ const HomeRT = () => {
               <IonMenuButton />
             </IonButtons>
             <IonButtons slot="end">
-              <IonButton 
-                onClick={()=>{
-                  console.log('hi');
-
-                  items.map(item =>{
-                    if (item.is_done === true){
-
-                      let path = user_uid + "/items/" + item.uid;
-
-                      set(ref(db, path), null)
-                      .then(() => {
-                        // Data saved successfully!
-                      })
-                      .catch((error) => {
-                        // The write failed...
-                      });
-
-                    }
-                  })
-
-                }}  
-              >
-                Clear list
+              <IonButton id="clickPop"
+                >
+                <IonIcon icon={ellipsisHorizontal}></IonIcon>
               </IonButton>
+              <IonPopover trigger="clickPop" triggerAction="click" dismissOnSelect="true">
+
+
+                <IonContent>
+                  <IonList lines="none">
+                    
+                      <IonItem button 
+                      onClick={()=>{
+                        items.map(item =>{
+                          if (item.is_done === true){
+      
+                            let path = user_uid + "/items/" + item.uid;
+      
+                            set(ref(db, path), null)
+                            .then(() => {
+                              // Data saved successfully!
+                            })
+                            .catch((error) => {
+                              // The write failed...
+                            });
+      
+                          }
+                        })
+                      }
+                        
+                      }>
+                        <IonLabel>Delete</IonLabel>
+                      </IonItem>
+                    
+                    
+                      <IonItem button>
+                        <IonLabel>Save</IonLabel>
+                      </IonItem>
+                    
+                  </IonList>
+                </IonContent>
+              </IonPopover>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
     
 
-        <IonContent>
+      <IonContent>
 
         {renderModal()}
 
