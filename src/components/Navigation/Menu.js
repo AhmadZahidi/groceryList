@@ -47,13 +47,7 @@ const Menu=()=>{
                             </IonItem>
                         </IonMenuToggle>
 
-                        <IonMenuToggle onClick={()=>{
-                            history.replace("/tag")
-                        }}>
-                            <IonItem button>
-                                <IonLabel>Tag</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
+                        
 
                         <IonMenuToggle onClick={()=>{
                             signOut(auth)
@@ -92,15 +86,9 @@ const Menu=()=>{
                 <Route exact path="/history">
                   <History/>
                 </Route>
-                <Route path="/history/:id">
-                  <HistoryDetail/>
-                </Route>
-                <Route path="/tag">
-                    <Tag/>
-                </Route>
-                <Route path="/test">
-                    <Test/>
-                </Route>
+                
+                
+                
 
                 <Route path="/welcome">
                     <Welcome/>
