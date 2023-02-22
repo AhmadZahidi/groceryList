@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonNavLink, IonRouterOutlet, IonTitle, IonToolbar } from "@ionic/react";
-import { Redirect, Route, useHistory } from "react-router";
+import { Redirect, Route, useHistory, useLocation } from "react-router";
 
 import Home from "../../pages/Home";
 import History from "../../pages/History";
@@ -19,11 +19,14 @@ import HomeRT from "../../pages/HomeRT";
 
 const Menu=()=>{
     const history = useHistory();
+    const location=useLocation();
+    const disabledUrls=['/welcome','/register','/login']
+    const isMenuDisabled= disabledUrls.includes(location.pathname);
     const ctx=useContext(Context);
 
     return(
         <>
-            <IonMenu contentId="Main">
+            <IonMenu contentId="Main" disabled={isMenuDisabled}>
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle>Menu</IonTitle>
