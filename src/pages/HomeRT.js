@@ -155,53 +155,45 @@ const HomeRT = () => {
                   <IonList lines="none">
                     
                       <IonItem button 
-                      onClick={()=>{
-                        items.map(item =>{
-                          if (item.is_done === true){
-      
-                            let path = user_uid + "/items/" + item.uid;
-      
-                            set(ref(db, path), null)
+                     onClick={() => {
+                      items.forEach((item) => {
+                        if (item.is_done === true) {
+                          let path = user_uid + "/items/" + item.uid;
+                          set(ref(db, path), null)
                             .then(() => {
                               // Data saved successfully!
                             })
                             .catch((error) => {
                               // The write failed...
                             });
-      
-                          }
-                        })
-                      }
-                        
-                      }>
+                        }
+                      });
+                    }}
+                    >
                         <IonLabel>Delete</IonLabel>
                       </IonItem>
                     
                     
                       <IonItem button
-                      onClick={()=>{
-                        items.map(item =>{
-                          if (item.is_saved === false){
-      
+                      onClick={() => {
+                        items.forEach((item) => {
+                          if (item.is_done === true) {
                             let path = user_uid + "/items/" + item.uid;
-      
                             set(ref(db, path), {
                               title: item.title,
                               is_done: item.is_done,
-                              is_saved:item.is_done
+                              is_saved: true // set is_saved to true to mark it as saved
                             })
-                            .then(() => {
-                              // Data saved successfully!
-                            })
-                            .catch((error) => {
-                              // The write failed...
-                            });
-      
+                              .then(() => {
+                                // Data saved successfully!
+                              })
+                              .catch((error) => {
+                                // The write failed...
+                              });
                           }
-                        })
-                      }
-                        
-                      }
+                        });
+                      }}
+                      
                       >
                         <IonLabel>Save</IonLabel>
                       </IonItem>
