@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonText, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonCheckbox, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonText, IonTitle, IonToolbar } from "@ionic/react"
 import { addCircleOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 
@@ -86,11 +86,23 @@ const History=()=>{
                         </IonText>
                     </center>
                 }
+                    
                     <IonList lines="full">
 
                         {data && data.map((item,idx)=>{
                             return (
-                                <IonItem key={idx}>
+                                <IonItem key={idx} button onClick={()=>{
+                                    let path=user_uid+"/items/"+item.uid
+
+                                    set(ref(db,path),{
+                                        title:item.title,
+                                        is_done:!item.is_done,
+                                        is_saved:false
+                                    })
+                                    .then(()=>{})
+                                    .catch(()=>{})
+                                }}>
+
                                     <IonLabel>
                                         {item.title}
                                     </IonLabel>

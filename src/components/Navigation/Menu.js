@@ -43,10 +43,10 @@ const Menu=()=>{
                         </IonMenuToggle>
 
                         <IonMenuToggle onClick={()=>{
-                            history.replace("/history")
+                            history.replace("/archived")
                         }}>
                             <IonItem button>
-                                <IonLabel>History</IonLabel>
+                                <IonLabel>Archived</IonLabel>
                             </IonItem>
                         </IonMenuToggle>
 
@@ -86,7 +86,7 @@ const Menu=()=>{
                 </Route>
                 
 
-                <Route exact path="/history">
+                <Route exact path="/archived">
                   <History/>
                 </Route>
                 
